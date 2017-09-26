@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Windows.Media;
@@ -13,10 +12,6 @@ namespace WpfOpenGlLibrary.Helpers
 
         private readonly List<float> _verts = new List<float>();
         private readonly List<float> _colors = new List<float>();
-
-        public VertexHelper()
-        {
-        }
 
         public void PutMany(IEnumerable<Vector3> verts, Color? color = null)
         {

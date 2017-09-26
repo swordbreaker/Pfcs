@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7AFE3A57-6249-4AF8-8A60-B39929DF0E80}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PfcsSharp</RootNamespace>
+    <RootNamespace>Aufgabe1</RootNamespace>
     <AssemblyName>Aufgabe1</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

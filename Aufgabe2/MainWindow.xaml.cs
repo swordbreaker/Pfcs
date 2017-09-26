@@ -16,18 +16,17 @@ namespace Aufgabe2
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const float G = 9.81f;
-        private const float M = 1;
+        public const float G                 = 9.81f;                 //Gravity
+        private const float M                = 1;                     //Mass
 
-        private static Vector2 V0 = new Vector2(10f, 4f);
-        private static readonly Vector2 Pos0 = new Vector2(-8f, 0);
-        private float _vStrenght = V0.Length();
-        private Vector2 _v0Norm = Vector2.Normalize(V0);
+        private static Vector2 V0            = new Vector2(10f, 4f);  //Initial Velocity Vector
+        private static readonly Vector2 Pos0 = new Vector2(-8f, 0);   //Start position for bullets
+        private float _vStrenght             = V0.Length();
+        private Vector2 _v0Norm              = Vector2.Normalize(V0);
+        private float _alpha;                                         //Angle in radians
 
-        private bool _isRunning = false;
-        private Queue<Projectile> _bullets = new Queue<Projectile>();
-        private Projectile _plate;
-        private float _alpha;
+        private readonly Queue<Projectile> _bullets = new Queue<Projectile>();
+        private readonly Projectile _plate;
 
         public MainWindow()
         {
@@ -37,7 +36,6 @@ namespace Aufgabe2
             KeyDown += OnKeyDown;
 
             _alpha = (float)Math.Acos(Vector2.Dot(_v0Norm, Vector2.UnitX));
-
             _plate = new Projectile(Vector2.Zero, Pos0 + V0 * 1f, DrawSquare) { UseGravity = false };
         }
 

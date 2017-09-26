@@ -37,7 +37,7 @@ namespace WpfOpenGlLibrary.Helpers
 
         public static void DrawRectangle(Rect rect, Color? color)
         {
-            var vecs = new Vector2[]
+            var vecs = new[]
             {
                 rect.TopLeft.ToVector2(),
                 rect.TopRight.ToVector2(),
