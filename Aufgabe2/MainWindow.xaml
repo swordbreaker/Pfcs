@@ -1,0 +1,14 @@
+﻿<Window x:Class="Aufgabe2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aufgabe2"
+        xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
+        xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <wpfOpenGlLibrary:OpenGlWpfControl x:Name="OpenGlWpfControl"/>
+    </Grid>
+</Window>

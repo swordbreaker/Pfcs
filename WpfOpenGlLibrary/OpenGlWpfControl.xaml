@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="WpfOpenGlLibrary.OpenGlWpfControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfOpenGlLibrary"
+             xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <WindowsFormsHost>
+            <openGl:GlControl x:Name="OpenGlControl" ContextCreated="GlControl_OnContextCreated" Render="GlControl_OnRender" Animation="True" AnimationTime="20" Resize="Control_OnResize"/>
+        </WindowsFormsHost>
+    </Grid>
+</UserControl>

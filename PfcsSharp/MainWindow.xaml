@@ -1,0 +1,44 @@
+﻿<Window x:Class="PfcsSharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PfcsSharp"
+        xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
+        xmlns:pfcsSharp="clr-namespace:PfcsSharp;assembly=WpfOpenGlLibrary"
+        xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Name="Root"
+        DataContext="{Binding ElementName=Root}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <wpfOpenGlLibrary:OpenGlWpfControl x:Name="OpenGlWpfControl"></wpfOpenGlLibrary:OpenGlWpfControl>
+        <!--<WindowsFormsHost Grid.Row="0">
+            <openGl:GlControl ContextCreated="GlControl_OnContextCreated" Render="GlControl_OnRender" Animation="True" AnimationTime="20" Resize="Control_OnResize"/>
+        </WindowsFormsHost>-->
+        
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>A1</TextBlock>
+                <TextBox Text="{Binding A1}" Width="30"/>
+
+                <TextBlock>A2</TextBlock>
+                <TextBox Text="{Binding A2}" Width="30"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>W1</TextBlock>
+                <TextBox Text="{Binding W1}" Width="30"/>
+
+                <TextBlock>W2</TextBlock>
+                <TextBox Text="{Binding W2}" Width="30"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
+
+
+
