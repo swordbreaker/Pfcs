@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <WindowsFormsHost>
-            <openGl:GlControl x:Name="OpenGlControl" ContextCreated="GlControl_OnContextCreated" Render="GlControl_OnRender" Animation="True" AnimationTime="20" Resize="Control_OnResize"/>
+            <openGl:GlControl x:Name="OpenGlControl" ContextCreated="GlControl_OnContextCreated" Render="GlControl_OnRender" Animation="True" AnimationTime="20" Resize="Control_OnResize" MouseClick="OpenGlControl_MouseClick"/>
         </WindowsFormsHost>
     </Grid>
 </UserControl>

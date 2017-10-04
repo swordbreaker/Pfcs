@@ -8,7 +8,7 @@
         xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Grid MouseDown="OpenGlWpfControl_MouseDown">
         <wpfOpenGlLibrary:OpenGlWpfControl x:Name="OpenGlWpfControl"/>
     </Grid>
 </Window>

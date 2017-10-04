@@ -39,6 +39,7 @@
       <HintPath>..\packages\OpenGL.Net.WinForms.0.6.0\lib\net461\OpenGL.Net.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
@@ -69,6 +70,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Helpers\FiguresHelper.cs" />
+    <Compile Include="Helpers\Matrix4x4Extention.cs" />
+    <Compile Include="Helpers\ShaderHelper.cs" />
     <Compile Include="Helpers\VertexHelper.cs" />
     <Compile Include="OpenGlWpfControl.xaml.cs">
       <DependentUpon>OpenGlWpfControl.xaml</DependentUpon>
@@ -98,6 +101,24 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Shaders\fshader0.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\ftestShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\vtestShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\vshader0.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\vshader1.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\vshader2.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
