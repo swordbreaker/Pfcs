@@ -21,11 +21,12 @@ namespace Aufgabe2
 
         public Color Color { get; set; } = Colors.Black;
 
-        private readonly Action<Vector2, Color> _drawAction;
+        public delegate void DrawDelegate(Vector2 pos, Vector2 v, Vector2 a, Color color);
+        private readonly DrawDelegate _drawAction;
 
         public bool UseGravity { get; set; } = true;
 
-        public Projectile(Vector2 vo, Vector2 pos0, Action<Vector2, Color> drawAction)
+        public Projectile(Vector2 vo, Vector2 pos0, DrawDelegate drawAction)
         {
             V0 = vo;
             V = V0;
@@ -36,7 +37,7 @@ namespace Aufgabe2
 
         public void Draw()
         {
-            _drawAction.Invoke(Pos, Color);
+            _drawAction.Invoke(Pos, V, A, Color);
             if (!UseGravity) return;
             Pos = Pos + V * Dt;
             V = V + A * Dt;

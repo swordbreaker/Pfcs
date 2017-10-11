@@ -7,8 +7,74 @@
         xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
         xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid MouseDown="OpenGlWpfControl_MouseDown">
-        <wpfOpenGlLibrary:OpenGlWpfControl x:Name="OpenGlWpfControl"/>
+        Title="Aufgabe 2" Height="350" Width="525" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <wpfOpenGlLibrary:OpenGlWpfControl Grid.Column="0" x:Name="OpenGlWpfControl"/>
+        <StackPanel Grid.Column="1" Margin="10">
+            <RichTextBox IsReadOnly="True">
+                <FlowDocument>
+                    <Table >
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>S</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>shoot</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Space</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>pause/resume</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>R</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>reset</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>V</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>change velocity</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Up/Down</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>change angle</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                        </TableRowGroup>
+                    </Table>
+                </FlowDocument>
+                </RichTextBox>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Margin="5" IsTabStop="False" GroupName="projectile" IsChecked="True" Checked="ToggleButtonBullet_OnChecked">Bullet</RadioButton>
+                <RadioButton Margin="5" IsTabStop="False" GroupName="projectile" Checked="ToggleButtonSpear_OnChecked">Spear</RadioButton>
+            </StackPanel>
+
+            <UniformGrid>
+                <TextBlock Text="V0:"/>
+                <TextBlock Text="{Binding V0}" TextWrapping="Wrap"/>
+
+                <TextBlock Text="&#945;:"/>
+                <TextBlock Text="{Binding AlphaDeg}"/>
+            </UniformGrid>
+        </StackPanel>
     </Grid>
 </Window>

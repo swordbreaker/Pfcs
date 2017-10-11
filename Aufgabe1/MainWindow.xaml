@@ -6,19 +6,33 @@
         xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
         xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Name="Root"
+        Title="Aufgabe 1" Height="350" Width="525" Name="Root"
         DataContext="{Binding ElementName=Root}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <wpfOpenGlLibrary:OpenGlWpfControl x:Name="OpenGlWpfControl"></wpfOpenGlLibrary:OpenGlWpfControl>
-        <!--<WindowsFormsHost Grid.Row="0">
-            <openGl:GlControl ContextCreated="GlControl_OnContextCreated" Render="GlControl_OnRender" Animation="True" AnimationTime="20" Resize="Control_OnResize"/>
-        </WindowsFormsHost>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <wpfOpenGlLibrary:OpenGlWpfControl Grid.Column="0" x:Name="OpenGlWpfControl"></wpfOpenGlLibrary:OpenGlWpfControl>
         
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Column="1">
+            <UniformGrid Columns="2" Margin="5">
+                <TextBlock>A1</TextBlock>
+                <TextBox Text="{Binding A1}" Width="30" Margin="0,2"/>
+
+                <TextBlock>A2</TextBlock>
+                <TextBox Text="{Binding A2}" Width="30" Margin="0,2"/>
+
+                <TextBlock>W1</TextBlock>
+                <TextBox Text="{Binding W1}" Width="30" Margin="0,2"/>
+
+                <TextBlock>W2</TextBlock>
+                <TextBox Text="{Binding W2}" Width="30" Margin="0,2"/>
+            </UniformGrid>
+        </StackPanel>
+
+        
+        <!--<StackPanel Grid.Column="1">
             <StackPanel Orientation="Horizontal">
                 <TextBlock>A1</TextBlock>
                 <TextBox Text="{Binding A1}" Width="30"/>
@@ -32,9 +46,9 @@
 
                 <TextBlock>W2</TextBlock>
                 <TextBox Text="{Binding W2}" Width="30"/>
-            </StackPanel>
+            </StackPanel>-->
 
-        </StackPanel>
+        <!--</StackPanel>-->
     </Grid>
 </Window>
 

@@ -49,25 +49,35 @@ namespace WpfOpenGlLibrary.Helpers
 
         public static void DrawLine(Vector2 start, Vector2 end, float lineWidth, Color? color = null)
         {
+            DrawLine(new Vector3(start, 0f), new Vector3(end, 0f), lineWidth, color);
+        }
+
+        public static void DrawLine(Vector3 start, Vector3 end, float lineWidth, Color? color = null)
+        {
             Gl.LineWidth(lineWidth);
             var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
-            vHelper.PutMany(new[]{start, end}, color);
+            vHelper.PutMany(new[] { start, end }, color);
+            vHelper.Draw(PrimitiveType.Lines);
+        }
+
+        public static void DrawLine(Vector2[] verts, float lineWidth, Color? color = null)
+        {
+            Gl.LineWidth(lineWidth);
+            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
+            vHelper.PutMany(verts, color);
+            vHelper.Draw(PrimitiveType.Lines);
+        }
+
+        public static void DrawLine(Vector3[] verts, float lineWidth, Color? color = null)
+        {
+            Gl.LineWidth(lineWidth);
+            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
+            vHelper.PutMany(verts, color);
             vHelper.Draw(PrimitiveType.Lines);
         }
 
         public static void DrawSpear(Vector2 start, float a, float b, float c, Color? color = null)
         {
-            //Matrix4x4 m = Matrix4x4.Identity;
-            //// m.translate(start.X, start.Y, 0)M
-
-            ////double alpha = atan(vy/vx) * 180 /Math.Pi;
-            //// m = M.postmultiply(Math.rotate(alpha, 0,0,1);
-
-            ////m.Translation = new Vector3(start.X, start.Y, 0);
-            //m *= Matrix4x4.CreateTranslation(new Vector3(start.X, start.Y, 0));
-            //m *= Matrix4x4.CreateRotationZ(30f * 180f / (float) Math.PI);
-            //m = t * r;
-
             var vecs = new[]
             {
                 //Triangle
@@ -85,38 +95,36 @@ namespace WpfOpenGlLibrary.Helpers
                 new Vector2(a, b)
             };
 
-            //for (var i = 0; i < vecs.Length; i++)
-            //{
-            //    vecs[i] = Vector2.Transform(vecs[i], m);
-            //}
-
             DrawPolygon(vecs, color);
-            //Triangle 1
-            //a , -b
-            //a + c , 0
-            //a, b
+        }
 
-            //Triangle 2
-            //-a , b
-            //-(a+c) , 0
-            //-a, -b
+        public static void DrawCube(Vector3 center, float a, Color? color = null)
+        {
+            var a2 = a / 2f;
+            var c = center;
 
-            //M = T * R 
-            //M = Mat.ID
-            //M = Mat4.translate(tx, 0, 0):
-            //M = M.premultiply(Mat4.rotate(30,0,0,1));
-            //mygl.SetM(gl, M);
+            var verts = new[]
+            {
+                new Vector3(c.X - a2, c.Y - a2, c.Z - a2),
+                new Vector3(c.X - a2, c.Y + a2, c.Z - a2),
+                new Vector3(c.X + a2, c.Y + a2, c.Z - a2),
+                new Vector3(c.X + a2, c.Y - a2, c.Z - a2),
+                new Vector3(c.X + a2, c.Y - a2, c.Z + a2),
+                new Vector3(c.X + a2, c.Y + a2, c.Z + a2),
+                new Vector3(c.X - a2, c.Y + a2, c.Z + a2),
+                new Vector3(c.X - a2, c.Y - a2, c.Z + a2),
+            };
 
-            // M = abs *  T * R * rel
-            
-            //Realtive drehung
-            // M = M * R
+            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
+            vHelper.PutMany(verts, color);
+            vHelper.Draw(PrimitiveType.TriangleFan);
+        }
 
-            //Absolute drehung
-            // M = R * M
-
-            //DrawSpear(1.2f, 0.04f, 0.2f);
-            //
+        public static void Draw3DCross(float lineLenght, float lineWidth)
+        {
+            DrawLine(Vector3.Zero, Vector3.UnitX * lineLenght, lineWidth, Colors.Blue);
+            DrawLine(Vector3.Zero, Vector3.UnitY * lineLenght, lineWidth, Colors.Red);
+            DrawLine(Vector3.Zero, Vector3.UnitZ * lineLenght, lineWidth, Colors.Green);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using OpenGL;
 using Matrix4x4 = System.Numerics.Matrix4x4;
 

@@ -2,9 +2,9 @@
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using OpenGL;
 using WpfOpenGlLibrary.Helpers;
-using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace WpfOpenGlLibrary
 {
@@ -33,12 +33,25 @@ namespace WpfOpenGlLibrary
             }
         }
 
-        public DependencyProperty OrthoProperty = DependencyProperty.Register(
-            nameof(Ortho), typeof(OrthoProjection), typeof(OpenGlWpfControl));
+        //public DependencyProperty OrthoProperty = DependencyProperty.Register(
+        //    nameof(Ortho), typeof(OrthoProjection), typeof(OpenGlWpfControl));
+
+        public Color BgColor
+        {
+            get { return _bgColor; }
+            set
+            {
+                _bgColor = value;
+                _bgColorVec = new Vector4(value.R/255f, value.G/255f, value.B/255f, value.A/255f);
+            }
+        }
+
+        private Vector4 _bgColorVec = new Vector4(0f,0f,0f,0f);
+        private Color _bgColor;
 
         public OrthoProjection Ortho { get; set; } = new OrthoProjection(-1, 1, -1, 1, -1, 1);
 
-        public OpenGL.GlControl GlControl { get; private set; }
+        public GlControl GlControl { get; private set; }
 
         public ShaderHelper Shader { get; private set; }
 
@@ -51,6 +64,7 @@ namespace WpfOpenGlLibrary
 
         public OpenGlWpfControl()
         {
+            BgColor = Colors.White;
             InitializeComponent();
             GlControl = OpenGlControl;
         }
@@ -62,9 +76,9 @@ namespace WpfOpenGlLibrary
             Gl.MatrixMode(MatrixMode.Modelview);
             Gl.LoadIdentity();
 
-            Gl.ClearColor(1, 1, 1, 1);
+            Gl.ClearColor(_bgColorVec.X, _bgColorVec.Y, _bgColorVec.Z, _bgColorVec.W);
 
-            Shader = new ShaderHelper();
+            //Shader = new ShaderHelper();
             AdjustOrtho(new Size(control.Height, control.Width));
         }
 
@@ -80,6 +94,7 @@ namespace WpfOpenGlLibrary
             Gl.Viewport(vpx, vpy, vpw, vph);
 
             Gl.Clear(ClearBufferMask.ColorBufferBit);
+            Gl.ClearColor(_bgColorVec.X, _bgColorVec.Y, _bgColorVec.Z, _bgColorVec.W);
 
             OnRender?.Invoke(sender, e);
         }
@@ -95,21 +110,21 @@ namespace WpfOpenGlLibrary
         {
             var aspect = (float)size.Height / size.Width;
 
-            var p = Matrix4x4.Identity;
+            //var p = Matrix4x4.Identity;
 
-            //Gl.MatrixMode(MatrixMode.Projection);
-            //Gl.LoadIdentity();
-            //Gl.Ortho(Ortho.Left, Ortho.Right, Ortho.Bottom * aspect, Ortho.Top * aspect, Ortho.Near, Ortho.Far);
+            Gl.MatrixMode(MatrixMode.Projection);
+            Gl.LoadIdentity();
+            Gl.Ortho(Ortho.Left, Ortho.Right, Ortho.Bottom * aspect, Ortho.Top * aspect, Ortho.Near, Ortho.Far);
 
-            var ortho = Matrix4x4.CreateOrthographicOffCenter(
-                (float) Ortho.Left,
-                (float) Ortho.Right,
-                (float) (Ortho.Bottom * aspect),
-                (float) (Ortho.Top * aspect),
-                (float) Ortho.Near,
-                (float) Ortho.Far);
+            //var ortho = Matrix4x4.CreateOrthographicOffCenter(
+            //    (float) Ortho.Left,
+            //    (float) Ortho.Right,
+            //    (float) (Ortho.Bottom * aspect),
+            //    (float) (Ortho.Top * aspect),
+            //    (float) Ortho.Near,
+            //    (float) Ortho.Far);
 
-            Shader.P = Matrix4x4.Identity * ortho;
+            //Shader.P = Matrix4x4.Identity * ortho;
         }
 
         private void OpenGlControl_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
