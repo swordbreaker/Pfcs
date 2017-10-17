@@ -33,6 +33,7 @@ namespace Aufgabe2
 
         private readonly Queue<Projectile> _bullets = new Queue<Projectile>();
         private readonly Projectile _plate;
+        private readonly List<Vector2> _parabelPoints = new List<Vector2>();
 
         private const float ViewPortLeft = -10;
         private const float ViewPortRight = 10;
@@ -157,11 +158,33 @@ namespace Aufgabe2
 
                 if (_bullets.Peek().Pos.Y <= ViewPortLeft) _bullets.Dequeue();
             }
+            else
+            {
+                DrawParabel();
+            }
 
             _plate.Draw();
             FiguresHelper.DrawCircle(0.2f, Pos0, 20, Colors.Green);
             FiguresHelper.DrawLine(Pos0, Pos0 + V0, 1, Colors.Green);
         }
+
+        private void DrawParabel()
+        {
+            _parabelPoints.Clear();
+            var lineDraw = new Projectile(V0, Pos0, ParableAction);
+
+            for (int i = 0; i < 400; i++)
+            {
+                lineDraw.Draw();
+            }
+
+            FiguresHelper.DrawLine(_parabelPoints.ToArray(), 1, Colors.LawnGreen);
+        }
+
+        private void ParableAction(Vector2 pos, Vector2 v, Vector2 a, Color color)
+        {
+            _parabelPoints.Add(pos);
+        }   
 
         private void Reset()
         {

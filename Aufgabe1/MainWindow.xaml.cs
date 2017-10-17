@@ -12,8 +12,8 @@ namespace Aufgabe1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public float A1 { get; set; } = 0.5f;
-        public float A2 { get; set; } = 0.5f;
+        public float A1 { get; set; } = 2f;
+        public float A2 { get; set; } = 2f;
         public float W1 { get; set; } = 1f;
         public float W2 { get; set; } = 1f;
 
@@ -27,6 +27,7 @@ namespace Aufgabe1
             InitializeComponent();
             OpenGlWpfControl.Ortho = new WpfOpenGlLibrary.OpenGlWpfControl.OrthoProjection(3,-3,3,-3,-100,100);
             OpenGlWpfControl.OnRender += Render;
+            OpenGlWpfControl.BgColor = Colors.RoyalBlue;
         }
 
         private void Render(object sender, GlControlEventArgs glControlEventArgs)
