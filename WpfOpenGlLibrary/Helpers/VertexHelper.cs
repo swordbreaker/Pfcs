@@ -34,10 +34,10 @@ namespace WpfOpenGlLibrary.Helpers
             _verts.Add(y);
             _verts.Add(z);
 
-            _colors.Add(c.R);
-            _colors.Add(c.G);
-            _colors.Add(c.B);
-            _colors.Add(c.A);
+            _colors.Add((float)c.R / 255);
+            _colors.Add((float)c.G / 255);
+            _colors.Add((float)c.B / 255);
+            _colors.Add((float)c.A / 255);
         }
 
         public void Put(float x, float y, Color? color = null) => Put(x, y, 0, color);

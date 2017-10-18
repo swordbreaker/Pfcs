@@ -6,6 +6,7 @@ using OpenGL;
 using WpfOpenGlLibrary;
 using WpfOpenGlLibrary.Helpers;
 using Matrix4x4 = System.Numerics.Matrix4x4;
+using PixelFormat = OpenGL.PixelFormat;
 
 namespace Aufgabe3
 {
@@ -18,11 +19,12 @@ namespace Aufgabe3
         private const float ViewPortRight = 10;
         private const float ViewPortTop = 10;
         private const float ViewPortBottom = -10;
-        private const float ViewPortNear = -10;
-        private const float ViewPortFar = 10;
+        private const float ViewPortNear = -200;
+        private const float ViewPortFar = 200;
 
         private float _elevation = 0;
         private float _azimut = 0;
+        private float _phi = 0;
 
         public MainWindow()
         {
@@ -57,7 +59,6 @@ namespace Aufgabe3
 
         private void Render(object sender, GlControlEventArgs e)
         {
-            Gl.Clear(ClearBufferMask.DepthBufferBit);
 
             //U = Model matrix
             //V = View matrix
@@ -65,9 +66,9 @@ namespace Aufgabe3
             //X' = V * X
 
             //M = V * U * x
-            
+
             //mat4 V = Mat4.lookAt(eye, target, up);
-            
+
             // r = 20
             // A = (0,0,r)
             // B = (0,0,0)
@@ -84,25 +85,47 @@ namespace Aufgabe3
             //Mat4 U = Mat4.translate(2, 1, 0);
             //Mat4 R = Mat4.roatet(45, 
 
+            //FiguresHelper.Draw3DCross(200f, 2f);
+
+            //FiguresHelper.DrawCube(Vector3.Zero, 0.5f);
+
+
+            Gl.Clear(ClearBufferMask.DepthBufferBit);
+
+            var v = CameraMovement();
+
+            Gl.MatrixMode(MatrixMode.Modelview);
+            Gl.LoadMatrix(v.ToArray());
+            FiguresHelper.Draw3DCross(4, 1);
+
+            var r1 = Matrix4x4.CreateRotationY(Mathf.ToRadian(_phi));
+            var t = Matrix4x4.CreateTranslation(new Vector3(2f, 2f, 0f));
+            var r2 = Matrix4x4.CreateRotationY(Mathf.ToRadian(90));
+            var m = r2 * t * r1;
+
+            Gl.MatrixMode(MatrixMode.Modelview);
+            Gl.MultMatrix(m.ToArray());
+
+            FiguresHelper.DrawCircle(0.5f, new Vector2(0,0), 50, Colors.Chocolate);
+
+            _phi += 1f;
+        }
+
+        private Matrix4x4 CameraMovement()
+        {
             var radius = 20f;
-            //var a = new Quaternion(0, 0, r, 0);
-            var a = new Vector3(0,0, radius);
-            var b = new Vector3(0,0,0);
-            var up = new Vector3(0,1,0);
+            var a = new Vector3(0, 0, radius);
+            var b = new Vector3(0, 0, 0);
+            var up = new Vector3(0, 1, 0);
 
             var r1 = Matrix4x4.CreateRotationX(-_elevation);
             var r2 = Matrix4x4.CreateRotationY(_azimut);
             var r = r1 * r2;
 
+
             var v = Matrix4x4.CreateLookAt(Vector3.Transform(a, r), b, Vector3.Transform(up, r));
 
-            Gl.MatrixMode(MatrixMode.Modelview);
-            Gl.LoadIdentity();
-            Gl.LoadMatrix(v.ToArray());
-
-            FiguresHelper.Draw3DCross(200f, 2f);
-
-            FiguresHelper.DrawCube(Vector3.Zero, 0.5f);
+            return v;
         }
     }
 }
