@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aufgabe2"
-        xmlns:openGl="clr-namespace:OpenGL;assembly=OpenGL.Net.WinForms"
         xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
         mc:Ignorable="d"
         Title="Aufgabe 2" Height="350" Width="525" DataContext="{Binding RelativeSource={RelativeSource Self}}">
