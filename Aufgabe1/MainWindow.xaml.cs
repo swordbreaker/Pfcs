@@ -39,7 +39,7 @@ namespace Aufgabe1
 
         private void DrawCircle(Vector2 center, float a1, float a2, float w1, float w2, float phi)
         {
-            var vertHelper = new VertexHelper {CurrentColor = Colors.Green};
+            var vertHelper = new VertexHelper {CurrentColor = Colors.LightGreen};
             var n = 400;
 
             var dt = (float)(2 * Math.PI) / (w1 * (n - 1));

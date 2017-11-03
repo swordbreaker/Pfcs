@@ -1,6 +1,7 @@
 ﻿using OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Media;
@@ -21,7 +22,7 @@ namespace WpfOpenGlLibrary.Helpers
             {
                 x = center.X + r * (float)Math.Cos(phi * i);
                 y = center.Y + r * (float)Math.Sin(phi * i);
-                vHelper.Put(x, y);
+                vHelper.Put(x, y, normal: Vector3.UnitZ);
             }
 
             Gl.LineWidth(5);
@@ -31,7 +32,7 @@ namespace WpfOpenGlLibrary.Helpers
         public static void DrawPolygon(IEnumerable<Vector2> vecs, Color? color)
         {
             var vHelper = new VertexHelper {CurrentColor = color ?? Colors.Black};
-            vHelper.PutMany(vecs, color);
+            vHelper.PutMany(vecs.ToArray(), color);
             vHelper.Draw(PrimitiveType.Polygon);
         }
 
@@ -120,6 +121,11 @@ namespace WpfOpenGlLibrary.Helpers
             vHelper.Draw(PrimitiveType.TriangleFan);
         }
 
+        /// <summary>
+        /// Draws a 3d cross. X blue, y red and z green
+        /// </summary>
+        /// <param name="lineLenght">The line lenght.</param>
+        /// <param name="lineWidth">Width of the line.</param>
         public static void Draw3DCross(float lineLenght, float lineWidth)
         {
             DrawLine(Vector3.Zero, Vector3.UnitX * lineLenght, lineWidth, Colors.Blue);

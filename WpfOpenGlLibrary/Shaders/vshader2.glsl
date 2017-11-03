@@ -10,18 +10,18 @@ in vec4 vPosition, vColor, vNormal;                  /* Vertex-Attribute */
 out vec4 fColor;                                     /* Fragment-Farbe */                         
 void main()                                                                                       
 { 
-	vec4 vertex = M * vPosition;                      /* ModelView=Transformation */               
-	gl_Position = P * vertex;                         /* Projektion */                             
-	fColor = vColor;                                                                               
-	float Id;                                         /* Helligkeit diffuse Reflexion */           
-	if (shadingLevel >= 1)                                                                         
-	{ 
-		vec3 normal = normalize((M * vNormal).xyz);                                                  
-		vec3 toLight = normalize(lightPosition.xyz - vertex.xyz);                                    
-		Id = diffuse * dot(toLight, normal);            /* Gesetz von Lambert */                     
-		if ( Id < 0 ) Id = 0;                                                                        
-		vec3 whiteColor = vec3(1,1,1);                                                               
-		vec3 reflectedLight =  (ambient + Id) * vColor.rgb;                                           
-		fColor.rgb = min(reflectedLight, whiteColor);                                                
-	}                                                                                              
+    vec4 vertex = M * vPosition;                      /* ModelView=Transformation */               
+    gl_Position = P * vertex;                         /* Projektion */                             
+    fColor = vec4(vColor, 1);                                                                               
+    float Id;                                         /* Helligkeit diffuse Reflexion */           
+    if (shadingLevel >= 1)                                                                         
+    { 
+        vec3 normal = normalize((M * vNormal).xyz);                                                  
+        vec3 toLight = normalize(lightPosition.xyz - vertex.xyz);                                    
+        Id = diffuse * dot(toLight, normal);            /* Gesetz von Lambert */                     
+        if ( Id < 0 ) Id = 0;                                                                        
+        vec3 whiteColor = vec3(1,1,1);
+        vec3 reflectedLight =  (ambient + Id) * vColor.rgb;
+        fColor.rgb = min(reflectedLight, whiteColor);
+    }
 }

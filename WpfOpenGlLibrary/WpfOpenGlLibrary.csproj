@@ -69,11 +69,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Helpers\CameraHelper.cs" />
+    <Compile Include="Helpers\Figure3dHelper.cs" />
     <Compile Include="Helpers\FiguresHelper.cs" />
     <Compile Include="Helpers\Mathf.cs" />
     <Compile Include="Helpers\Matrix4x4Extention.cs" />
     <Compile Include="Helpers\ShaderHelper.cs" />
     <Compile Include="Helpers\VertexHelper.cs" />
+    <Compile Include="Models\Mesh.cs" />
     <Compile Include="OpenGlWpfControl.xaml.cs">
       <DependentUpon>OpenGlWpfControl.xaml</DependentUpon>
     </Compile>

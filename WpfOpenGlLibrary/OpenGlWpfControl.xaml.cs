@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using OpenGL;
 using WpfOpenGlLibrary.Helpers;
+using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace WpfOpenGlLibrary
 {
@@ -78,9 +80,10 @@ namespace WpfOpenGlLibrary
 
             Gl.ClearColor(_bgColorVec.X, _bgColorVec.Y, _bgColorVec.Z, _bgColorVec.W);
 
-            //Shader = new ShaderHelper();
+            Shader = new ShaderHelper();
             AdjustOrtho(new Size(control.Height, control.Width));
         }
+
 
         private void GlControl_OnRender(object sender, GlControlEventArgs e)
         {
@@ -93,7 +96,7 @@ namespace WpfOpenGlLibrary
 
             Gl.Viewport(vpx, vpy, vpw, vph);
 
-            Gl.Clear(ClearBufferMask.ColorBufferBit);
+            Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Gl.ClearColor(_bgColorVec.X, _bgColorVec.Y, _bgColorVec.Z, _bgColorVec.W);
 
             OnRender?.Invoke(sender, e);
@@ -108,14 +111,31 @@ namespace WpfOpenGlLibrary
 
         private void AdjustOrtho(Size size)
         {
+            if(Shader == null) return;
+
             var aspect = (float)size.Height / size.Width;
 
             //var p = Matrix4x4.Identity;
 
             Gl.MatrixMode(MatrixMode.Projection);
             Gl.LoadIdentity();
-            Gl.Ortho(Ortho.Left, Ortho.Right, Ortho.Bottom * aspect, Ortho.Top * aspect, Ortho.Near, Ortho.Far);
 
+            //var m = Matrix4x4.CreatePerspectiveOffCenter((float)Ortho.Left, (float)Ortho.Right, (float) Ortho.Bottom, (float) Ortho.Top,
+            //    (float) Ortho.Near, (float) Ortho.Far);
+            //Gl.LoadMatrix(m.ToArray());
+
+            //Gl.Ortho(Ortho.Left, Ortho.Right, Ortho.Bottom * aspect, Ortho.Top * aspect, Ortho.Near, Ortho.Far);
+
+            Shader.P = Matrix4x4.CreateOrthographicOffCenter((float) Ortho.Left, (float) Ortho.Right,
+                (float) Ortho.Bottom * (float)aspect, (float) Ortho.Top * (float)aspect, (float) Ortho.Near,
+                (float) Ortho.Far);
+
+            //var p = Matrix4x4.CreatePerspective((float)Math.Abs(Ortho.Left - Ortho.Right), (float)Math.Abs(Ortho.Top - Ortho.Bottom),
+            //    (float)Ortho.Near, (float)Ortho.Far);
+
+            //Gl.LoadMatrix(p.ToArray());
+
+            //gluPerspective(65.0, (float)g_Width / g_Height, g_nearPlane, g_farPlane);
             //var ortho = Matrix4x4.CreateOrthographicOffCenter(
             //    (float) Ortho.Left,
             //    (float) Ortho.Right,

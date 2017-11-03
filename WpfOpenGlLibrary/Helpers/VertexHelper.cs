@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
 using System.Windows.Media;
@@ -12,21 +13,25 @@ namespace WpfOpenGlLibrary.Helpers
 
         private readonly List<float> _verts = new List<float>();
         private readonly List<float> _colors = new List<float>();
+        private readonly List<float> _normals = new List<float>();
 
-        public void PutMany(IEnumerable<Vector3> verts, Color? color = null)
+        public void PutMany(Vector3[] verts, Color? color = null, Vector3[] normals = null)
         {
-            foreach (var vector3 in verts)
+            Contract.Assert(normals == null || verts.Length == normals.Length, "normals == null || verts.Length == normals.Length");
+
+            for (var i = 0; i < verts.Length; i++)
             {
-                Put(vector3, color);
+                var n = normals?[i] ?? Vector3.Zero;
+                Put(verts[i], color, n);
             }
         }
 
-        public void PutMany(IEnumerable<Vector2> verts, Color? color = null)
+        public void PutMany(Vector2[] verts, Color? color = null, Vector3[] normals = null)
         {
-            PutMany(verts.Select(v => new Vector3(v.X, v.Y, 0)), color);
+            PutMany(verts.Select(v => new Vector3(v.X, v.Y, 0)).ToArray(), color, normals);
         }
 
-        public void Put(float x, float y, float z, Color? color = null)
+        public void Put(float x, float y, float z, Color? color = null, Vector3 normal = default(Vector3))
         {
             var c = color ?? CurrentColor;
 
@@ -38,22 +43,30 @@ namespace WpfOpenGlLibrary.Helpers
             _colors.Add((float)c.G / 255);
             _colors.Add((float)c.B / 255);
             _colors.Add((float)c.A / 255);
+
+            _normals.Add(normal.X);
+            _normals.Add(normal.Y);
+            _normals.Add(normal.Z);
         }
 
-        public void Put(float x, float y, Color? color = null) => Put(x, y, 0, color);
-        public void Put(Vector3 v, Color? color = null) =>Put(v.X, v.Y, v.Z, color);
-        public void Put(Vector2 v, Color? color = null) => Put(v.X, v.Y, color);
+        public void Put(float x, float y, Color? color = null, Vector3 normal = default(Vector3)) => Put(x, y, 0, color, normal);
+        public void Put(Vector3 v, Color? color = null, Vector3 normal = default(Vector3)) =>Put(v.X, v.Y, v.Z, color, normal);
+        public void Put(Vector2 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, color, normal);
 
         public void Draw(PrimitiveType type)
         {
             using (var colorArrayLock = new MemoryLock(_colors.ToArray()))
             using (var vertexArrayLock = new MemoryLock(_verts.ToArray()))
+            using (var normalArrayLock = new MemoryLock(_normals.ToArray()))
             {
                 Gl.ColorPointer(4, ColorPointerType.Float, 0, colorArrayLock.Address);
                 Gl.EnableClientState(EnableCap.ColorArray);
 
                 Gl.VertexPointer(3, VertexPointerType.Float, 0, vertexArrayLock.Address);
                 Gl.EnableClientState(EnableCap.VertexArray);
+
+                Gl.NormalPointer(NormalPointerType.Float, 0, normalArrayLock.Address);
+                Gl.EnableClientState(EnableCap.NormalArray);
 
                 Gl.DrawArrays(type, 0, _verts.Count / 3);
             }
