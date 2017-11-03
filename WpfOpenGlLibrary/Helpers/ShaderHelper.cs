@@ -54,8 +54,19 @@ namespace WpfOpenGlLibrary.Helpers
             }
         }
 
+        public int ShadingLevel
+        {
+            get => _shadingLevel;
+            set
+            {
+                _shadingLevel = value;
+                Gl.Uniform1(_shadingLevelId, _shadingLevel);
+            }
+        }
+
         public ShaderHelper()
         {
+            var programId = Gl.CreateProgram();
             var vShaderId = Gl.CreateShader(ShaderType.VertexShader);
             var fShaderId = Gl.CreateShader(ShaderType.FragmentShader);
 
@@ -68,15 +79,20 @@ namespace WpfOpenGlLibrary.Helpers
             Gl.ShaderSource(fShaderId, new[] { fShader });
             Gl.CompileShader(fShaderId);
 
-            var programId = Gl.CreateProgram();
+            Gl.GetShader(vShaderId, ShaderParameterName.CompileStatus, out int success);
+
+            Gl.CheckErrors();
             Gl.AttachShader(programId, vShaderId);
+            Gl.CheckErrors();
             Gl.AttachShader(programId, fShaderId);
+            Gl.CheckErrors();
 
             Gl.LinkProgram(programId);
-            //Gl.CheckErrors();
+            Gl.CheckErrors();
+            Gl.ValidateProgram(programId);
             Gl.UseProgram(programId);
 
-            //Gl.CheckErrors();
+            Gl.CheckErrors();
 
             _mId = Gl.GetUniformLocation(programId, "M");
             _pId = Gl.GetUniformLocation(programId, "P");

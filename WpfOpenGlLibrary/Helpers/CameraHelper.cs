@@ -26,15 +26,19 @@ namespace WpfOpenGlLibrary.Helpers
             switch (keyEventArgs.Key)
             {
                 case Key.Up:
+                case Key.W:
                     Elevation += 0.1f;
                     break;
                 case Key.Down:
+                case Key.S:
                     Elevation -= 0.1f;
                     break;
                 case Key.Left:
+                case Key.A:
                     Azimut -= 0.1f;
                     break;
                 case Key.Right:
+                case Key.D:
                     Azimut += 0.1f;
                     break;
             }

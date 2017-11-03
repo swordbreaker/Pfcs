@@ -59,11 +59,11 @@ namespace WpfOpenGlLibrary.Helpers
             using (var vertexArrayLock = new MemoryLock(_verts.ToArray()))
             using (var normalArrayLock = new MemoryLock(_normals.ToArray()))
             {
-                Gl.ColorPointer(4, ColorPointerType.Float, 0, colorArrayLock.Address);
-                Gl.EnableClientState(EnableCap.ColorArray);
-
                 Gl.VertexPointer(3, VertexPointerType.Float, 0, vertexArrayLock.Address);
                 Gl.EnableClientState(EnableCap.VertexArray);
+
+                Gl.ColorPointer(4, ColorPointerType.Float, 0, colorArrayLock.Address);
+                Gl.EnableClientState(EnableCap.ColorArray);
 
                 Gl.NormalPointer(NormalPointerType.Float, 0, normalArrayLock.Address);
                 Gl.EnableClientState(EnableCap.NormalArray);

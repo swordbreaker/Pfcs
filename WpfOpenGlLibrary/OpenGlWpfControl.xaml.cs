@@ -69,6 +69,7 @@ namespace WpfOpenGlLibrary
             BgColor = Colors.White;
             InitializeComponent();
             GlControl = OpenGlControl;
+            GlControl.DepthBits = 24;
         }
 
         private void GlControl_OnContextCreated(object sender, GlControlEventArgs e)
@@ -83,7 +84,6 @@ namespace WpfOpenGlLibrary
             Shader = new ShaderHelper();
             AdjustOrtho(new Size(control.Height, control.Width));
         }
-
 
         private void GlControl_OnRender(object sender, GlControlEventArgs e)
         {
@@ -111,7 +111,7 @@ namespace WpfOpenGlLibrary
 
         private void AdjustOrtho(Size size)
         {
-            if(Shader == null) return;
+            if (Shader == null) return;
 
             var aspect = (float)size.Height / size.Width;
 

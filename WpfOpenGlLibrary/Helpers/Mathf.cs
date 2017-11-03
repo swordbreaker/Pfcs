@@ -2,7 +2,7 @@
 
 namespace WpfOpenGlLibrary.Helpers
 {
-    public class Mathf
+    public static class Mathf
     {
         public const float Epsilon = 0.0000001f;
         public static readonly float PI = 3.1415926f;

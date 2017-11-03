@@ -12,7 +12,7 @@ namespace WpfOpenGlLibrary.Helpers
         {
             var vh = new VertexHelper() { CurrentColor =  color};
             vh.PutMany(mesh.Verts, normals: mesh.Normals);
-            vh.Draw(PrimitiveType.TriangleStrip);
+            vh.Draw(PrimitiveType.Triangles);
         }
 
         public static void DrawSphere(float r, int n1, int n2, bool solid, Color color)
