@@ -1,14 +1,11 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using OpenGL;
 using WpfOpenGlLibrary;
 using WpfOpenGlLibrary.Helpers;
 using WpfOpenGlLibrary.Models;
 using Matrix4x4 = System.Numerics.Matrix4x4;
-using PixelFormat = OpenGL.PixelFormat;
 
 namespace Aufgabe3
 {

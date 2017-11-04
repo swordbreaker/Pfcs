@@ -11,6 +11,7 @@ using OpenGL;
 using WpfOpenGlLibrary;
 using WpfOpenGlLibrary.Helpers;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace Aufgabe2
 {
@@ -95,17 +96,14 @@ namespace Aufgabe2
             FiguresHelper.DrawCircle(0.5f, pos, 20, color);
         }
 
-        private static void DrawSpear(Vector2 pos, Vector2 v, Vector2 a, Color c)
+        private void DrawSpear(Vector2 pos, Vector2 v, Vector2 a, Color c)
         {
-            Gl.MatrixMode(MatrixMode.Modelview);
-            Gl.LoadIdentity();
-            Gl.Translate(pos.X, pos.Y, 0);
-
-            float alpha = (float)Math.Atan(v.Y/v.X) * 180f / (float)Math.PI;
-            Gl.Rotate(alpha, 0, 0, 1);
+            var s = OpenGlWpfControl.Shader;
+            var alpha = (float)Math.Atan(v.Y / v.X);
+            s.PushM(Matrix4x4.CreateRotationZ(alpha) * Matrix4x4.CreateTranslation(pos.X, pos.Y, 0));
 
             FiguresHelper.DrawSpear(new Vector2(1, 2), 1.2f, 0.04f, 0.2f);
-            Gl.LoadIdentity();
+            s.PopM();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)

@@ -30,6 +30,7 @@ namespace Kepler
         private readonly Projectile _satelite;
 
         private readonly CameraHelper _cameraHelper = new CameraHelper(10, 40, 10f);
+        private ShaderHelper _shader;
 
         public MainWindow()
         {
@@ -47,17 +48,17 @@ namespace Kepler
 
             _satelite = new Projectile(v0, pos, DrawSphere);
 
-            Gl.Enable(EnableCap.DepthTest);
-            Gl.Enable(EnableCap.PolygonOffsetFill);
-            Gl.PolygonOffset(1,1);
-            Gl.DepthMask(true);
-
             Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            
+            _shader = OpenGlWpfControl.Shader;
+            _shader.ShadingLevel = 0;
+            Gl.Enable(EnableCap.DepthTest);
+            Gl.Enable(EnableCap.PolygonOffsetFill);
+            Gl.PolygonOffset(1, 1);
+            Gl.DepthMask(true);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)
@@ -66,6 +67,8 @@ namespace Kepler
 
         private void Render(object sender, GlControlEventArgs e)
         {
+            if (_shader == null) return;
+
             Gl.Clear(ClearBufferMask.DepthBufferBit);
             Gl.MatrixMode(MatrixMode.Modelview);
 
@@ -74,14 +77,13 @@ namespace Kepler
             
             var m = u * v;
 
-            Gl.LoadMatrix(m.ToArray());
+            _shader.M = m;
 
             FiguresHelper.Draw3DCross(50f, 1f);
 
-            Figure3DHelper.DrawSphere(20,20,20, true, Colors.Yellow);
+            Figure3DHelper.DrawSphere(15,20,20, true, Colors.Yellow);
             Gl.LineWidth(1);
-            Figure3DHelper.DrawSphere(20,20,20, false, Colors.Red);
-            //FiguresHelper.DrawCircle(RE, new Vector2(0,0), 20, Colors.Yellow);
+            Figure3DHelper.DrawSphere(15,20,20, false, Colors.Red);
            
             _satelite.Draw();
         }
@@ -91,10 +93,11 @@ namespace Kepler
             FiguresHelper.DrawCircle(0.1f*RE, pos, 20, color);
         }
 
-        private static void DrawSphere(Vector2 pos, Vector2 v, Vector2 a, Color color)
+        private void DrawSphere(Vector2 pos, Vector2 v, Vector2 a, Color color)
         {
             var t = Matrix4x4.CreateTranslation(new Vector3(pos, 0));
-            Gl.MultMatrix(t.ToArray());
+            var vM = _cameraHelper.CameraMatrix;
+            _shader.M *= t * vM;
             Figure3DHelper.DrawSphere(2, 20, 20, true, color);
         }
     }

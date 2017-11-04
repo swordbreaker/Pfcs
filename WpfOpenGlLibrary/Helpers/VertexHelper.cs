@@ -50,7 +50,7 @@ namespace WpfOpenGlLibrary.Helpers
         }
 
         public void Put(float x, float y, Color? color = null, Vector3 normal = default(Vector3)) => Put(x, y, 0, color, normal);
-        public void Put(Vector3 v, Color? color = null, Vector3 normal = default(Vector3)) =>Put(v.X, v.Y, v.Z, color, normal);
+        public void Put(Vector3 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, v.Z, color, normal);
         public void Put(Vector2 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, color, normal);
 
         public void Draw(PrimitiveType type)

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using OpenGL;
 using Matrix4x4 = System.Numerics.Matrix4x4;
@@ -17,10 +18,12 @@ namespace WpfOpenGlLibrary.Helpers
         private Matrix4x4 _m = Matrix4x4.Identity;
         private Matrix4x4 _p = Matrix4x4.Identity;
         private Vector3 _l = new Vector3(0,0,10);
-        private int _shadingLevel = 1;
+        private int _shadingLevel = 0;
         private float _ambient = 0.2f;
         private float _diffuse = 0.8f;
 
+        private Stack<Matrix4x4> _mStack = new Stack<Matrix4x4>();
+             
         public Matrix4x4 M
         {
             get => _m;
@@ -113,6 +116,17 @@ namespace WpfOpenGlLibrary.Helpers
             Gl.Uniform1(_shadingLevelId, _shadingLevel);
             Gl.Uniform1(_ambientId, _ambient);
             Gl.Uniform1(_diffuseId, _diffuse);
+        }
+
+        public void PushM(Matrix4x4 m)
+        {
+            _mStack.Push(M);
+            M = m;
+        }
+
+        public void PopM()
+        {
+            M = _mStack.Pop();
         }
     }
 }

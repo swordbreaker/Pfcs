@@ -87,6 +87,8 @@ namespace WpfOpenGlLibrary
 
         private void GlControl_OnRender(object sender, GlControlEventArgs e)
         {
+            if (Shader == null) return;
+
             var control = sender as GlControl;
 
             var vpx = 0;
@@ -115,36 +117,11 @@ namespace WpfOpenGlLibrary
 
             var aspect = (float)size.Height / size.Width;
 
-            //var p = Matrix4x4.Identity;
-
-            Gl.MatrixMode(MatrixMode.Projection);
-            Gl.LoadIdentity();
-
-            //var m = Matrix4x4.CreatePerspectiveOffCenter((float)Ortho.Left, (float)Ortho.Right, (float) Ortho.Bottom, (float) Ortho.Top,
-            //    (float) Ortho.Near, (float) Ortho.Far);
-            //Gl.LoadMatrix(m.ToArray());
-
             //Gl.Ortho(Ortho.Left, Ortho.Right, Ortho.Bottom * aspect, Ortho.Top * aspect, Ortho.Near, Ortho.Far);
 
             Shader.P = Matrix4x4.CreateOrthographicOffCenter((float) Ortho.Left, (float) Ortho.Right,
                 (float) Ortho.Bottom * (float)aspect, (float) Ortho.Top * (float)aspect, (float) Ortho.Near,
                 (float) Ortho.Far);
-
-            //var p = Matrix4x4.CreatePerspective((float)Math.Abs(Ortho.Left - Ortho.Right), (float)Math.Abs(Ortho.Top - Ortho.Bottom),
-            //    (float)Ortho.Near, (float)Ortho.Far);
-
-            //Gl.LoadMatrix(p.ToArray());
-
-            //gluPerspective(65.0, (float)g_Width / g_Height, g_nearPlane, g_farPlane);
-            //var ortho = Matrix4x4.CreateOrthographicOffCenter(
-            //    (float) Ortho.Left,
-            //    (float) Ortho.Right,
-            //    (float) (Ortho.Bottom * aspect),
-            //    (float) (Ortho.Top * aspect),
-            //    (float) Ortho.Near,
-            //    (float) Ortho.Far);
-
-            //Shader.P = Matrix4x4.Identity * ortho;
         }
 
         private void OpenGlControl_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
