@@ -1,5 +1,7 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using OpenGL;
 using WpfOpenGlLibrary;
@@ -14,17 +16,20 @@ namespace Aufgabe3
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const float ViewPortLeft = -10;
-        private const float ViewPortRight = 10;
-        private const float ViewPortTop = 10;
-        private const float ViewPortBottom = -10;
-        private const float ViewPortNear = 1f;
+        private const float ViewPortLeft = -7;
+        private const float ViewPortRight = 7;
+        private const float ViewPortTop = 7;
+        private const float ViewPortBottom = -7;
+        private const float ViewPortNear = -20f;
         private const float ViewPortFar = 20f;
 
         private float _phi = 0;
+        private float _step = 1f;
+        private float _radius = 10f;
 
         private ShaderHelper _shader;
-        private readonly CameraHelper _cameraHelper = new CameraHelper(0,0,5f);
+        private readonly CameraHelper _cameraHelper = new CameraHelper(0,0, 10f);
+        private readonly Mesh _boomerang = new Mesh(@"boomerang.obj");
 
         public MainWindow()
         {
@@ -36,6 +41,26 @@ namespace Aufgabe3
             OpenGlWpfControl.Ortho = new OpenGlWpfControl.OrthoProjection(ViewPortLeft, ViewPortRight, ViewPortTop, ViewPortBottom, ViewPortNear, ViewPortFar);
 
             KeyDown += _cameraHelper.OnKeyDown;
+            KeyDown += OnKeyDown;
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)
+        {
+            switch (keyEventArgs.Key)
+            {
+                case Key.Q:
+                    _step -= 0.1f;
+                    break;
+                case Key.E:
+                    _step += 0.1f;
+                    break;
+                case Key.R:
+                    _radius += 0.1f;
+                    break;
+                case Key.T:
+                    _radius -= 0.1f;
+                    break;
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -63,17 +88,18 @@ namespace Aufgabe3
             _shader.LightPos = new Vector3(1f, 1f, 1f);
 
             var r1 = Matrix4x4.CreateRotationY(Mathf.ToRadian(_phi));
-            var t = Matrix4x4.CreateTranslation(new Vector3(5f, 2f, 0f));
+            var t = Matrix4x4.CreateTranslation(new Vector3(_radius, 2f, 0f));
             var r2 = Matrix4x4.CreateRotationX(Mathf.ToRadian(90)) * Matrix4x4.CreateRotationY(Mathf.ToRadian(90)) * Matrix4x4.CreateRotationZ(Mathf.ToRadian(45));
             var scaleM = Matrix4x4.CreateScale(0.2f);
             var r3 = Matrix4x4.CreateRotationY(Mathf.ToRadian(-_phi * 10));
-            var m = r3 * r2 * t * r1 * scaleM;
+            var r4 = Matrix4x4.CreateRotationZ(Mathf.ToRadian(25));
+            var m = r3 * r2 * t * r1 * scaleM * r4;
 
             _shader.M = m * v;
 
-            Figure3DHelper.DrawMesh(new Mesh(@"boomerang.obj"), Colors.Chocolate);
+            Figure3DHelper.DrawMesh(_boomerang, Colors.Chocolate);
 
-            _phi += 3f;
+            _phi += _step;
         }
     }
 }

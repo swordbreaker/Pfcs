@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using System.Windows.Input;
 
 namespace WpfOpenGlLibrary.Helpers
@@ -28,18 +23,22 @@ namespace WpfOpenGlLibrary.Helpers
                 case Key.Up:
                 case Key.W:
                     Elevation += 0.1f;
+                    keyEventArgs.Handled = true;
                     break;
                 case Key.Down:
                 case Key.S:
                     Elevation -= 0.1f;
+                    keyEventArgs.Handled = true;
                     break;
                 case Key.Left:
                 case Key.A:
                     Azimut -= 0.1f;
+                    keyEventArgs.Handled = true;
                     break;
                 case Key.Right:
                 case Key.D:
                     Azimut += 0.1f;
+                    keyEventArgs.Handled = true;
                     break;
             }
         }

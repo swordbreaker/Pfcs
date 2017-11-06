@@ -8,6 +8,84 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
         <wpfOpenGlLibrary:OpenGlWpfControl Grid.Column="0" x:Name="OpenGlWpfControl"/>
+        <StackPanel Grid.Column="1" Margin="10">
+            <RichTextBox IsReadOnly="True">
+                <FlowDocument>
+                    <Table >
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Up/W</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Look up</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Down/S</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Look down</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Left/A</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Look left</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Right/D</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Look right</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>Q</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Slow down</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>E</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>Speed up</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>R</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>increase radius</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell FontWeight="Bold">
+                                    <Paragraph>T</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>decrease radius</Paragraph>
+                                </TableCell>
+                            </TableRow>
+                        </TableRowGroup>
+                    </Table>
+                </FlowDocument>
+            </RichTextBox>
+        </StackPanel>
     </Grid>
 </Window>
