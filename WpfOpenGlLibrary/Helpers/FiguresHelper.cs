@@ -13,7 +13,8 @@ namespace WpfOpenGlLibrary.Helpers
     {
         public static void DrawCircle(float r, Vector2 center, int n, Color? color = null)
         {
-            var vHelper = new VertexHelper {CurrentColor = color ?? Colors.Black};
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
 
             var phi = 2f * (float)Math.PI / n;
             float x, y;
@@ -22,18 +23,19 @@ namespace WpfOpenGlLibrary.Helpers
             {
                 x = center.X + r * (float)Math.Cos(phi * i);
                 y = center.Y + r * (float)Math.Sin(phi * i);
-                vHelper.Put(x, y, normal: Vector3.UnitZ);
+                VertexHelper.Put(x, y, normal: Vector3.UnitZ);
             }
 
             Gl.LineWidth(5);
-            vHelper.Draw(PrimitiveType.TriangleFan);
+            VertexHelper.Draw(PrimitiveType.TriangleFan);
         }
 
         public static void DrawPolygon(IEnumerable<Vector2> vecs, Color? color)
         {
-            var vHelper = new VertexHelper {CurrentColor = color ?? Colors.Black};
-            vHelper.PutMany(vecs.ToArray(), color);
-            vHelper.Draw(PrimitiveType.Polygon);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
+            VertexHelper.PutMany(vecs.ToArray(), color);
+            VertexHelper.Draw(PrimitiveType.Polygon);
         }
 
         public static void DrawRectangle(Rect rect, Color? color)
@@ -56,25 +58,28 @@ namespace WpfOpenGlLibrary.Helpers
         public static void DrawLine(Vector3 start, Vector3 end, float lineWidth, Color? color = null)
         {
             Gl.LineWidth(lineWidth);
-            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
-            vHelper.PutMany(new[] { start, end }, color);
-            vHelper.Draw(PrimitiveType.Lines);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
+            VertexHelper.PutMany(new[] { start, end }, color);
+            VertexHelper.Draw(PrimitiveType.Lines);
         }
 
         public static void DrawLine(Vector2[] verts, float lineWidth, Color? color = null)
         {
             Gl.LineWidth(lineWidth);
-            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
-            vHelper.PutMany(verts, color);
-            vHelper.Draw(PrimitiveType.Lines);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
+            VertexHelper.PutMany(verts, color);
+            VertexHelper.Draw(PrimitiveType.Lines);
         }
 
         public static void DrawLine(Vector3[] verts, float lineWidth, Color? color = null)
         {
             Gl.LineWidth(lineWidth);
-            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
-            vHelper.PutMany(verts, color);
-            vHelper.Draw(PrimitiveType.Lines);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
+            VertexHelper.PutMany(verts, color);
+            VertexHelper.Draw(PrimitiveType.Lines);
         }
 
         public static void DrawSpear(Vector2 start, float a, float b, float c, Color? color = null)
@@ -116,9 +121,10 @@ namespace WpfOpenGlLibrary.Helpers
                 new Vector3(c.X - a2, c.Y - a2, c.Z + a2),
             };
 
-            var vHelper = new VertexHelper { CurrentColor = color ?? Colors.Black };
-            vHelper.PutMany(verts, color);
-            vHelper.Draw(PrimitiveType.TriangleFan);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color ?? Colors.Black;
+            VertexHelper.PutMany(verts, color);
+            VertexHelper.Draw(PrimitiveType.TriangleFan);
         }
 
         /// <summary>

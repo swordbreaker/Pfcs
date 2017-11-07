@@ -7,15 +7,22 @@ using OpenGL;
 
 namespace WpfOpenGlLibrary.Helpers
 {
-    public class VertexHelper
+    public static class VertexHelper
     {
-        public Color CurrentColor { get; set; } = Colors.Black;
+        public static Color CurrentColor { get; set; } = Colors.Black;
 
-        private readonly List<float> _verts = new List<float>();
-        private readonly List<float> _colors = new List<float>();
-        private readonly List<float> _normals = new List<float>();
+        private static readonly List<float> _verts = new List<float>();
+        private static readonly List<float> _colors = new List<float>();
+        private static readonly List<float> _normals = new List<float>();
 
-        public void PutMany(Vector3[] verts, Color? color = null, Vector3[] normals = null)
+        public static void Clear()
+        {
+            _verts.Clear();
+            _colors.Clear();
+            _normals.Clear();
+        }
+
+        public static void PutMany(Vector3[] verts, Color? color = null, Vector3[] normals = null)
         {
             Contract.Assert(normals == null || verts.Length == normals.Length, "normals == null || verts.Length == normals.Length");
 
@@ -26,12 +33,12 @@ namespace WpfOpenGlLibrary.Helpers
             }
         }
 
-        public void PutMany(Vector2[] verts, Color? color = null, Vector3[] normals = null)
+        public static void PutMany(Vector2[] verts, Color? color = null, Vector3[] normals = null)
         {
             PutMany(verts.Select(v => new Vector3(v.X, v.Y, 0)).ToArray(), color, normals);
         }
 
-        public void Put(float x, float y, float z, Color? color = null, Vector3 normal = default(Vector3))
+        public static void Put(float x, float y, float z, Color? color = null, Vector3 normal = default(Vector3))
         {
             var c = color ?? CurrentColor;
 
@@ -49,11 +56,11 @@ namespace WpfOpenGlLibrary.Helpers
             _normals.Add(normal.Z);
         }
 
-        public void Put(float x, float y, Color? color = null, Vector3 normal = default(Vector3)) => Put(x, y, 0, color, normal);
-        public void Put(Vector3 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, v.Z, color, normal);
-        public void Put(Vector2 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, color, normal);
+        public static void Put(float x, float y, Color? color = null, Vector3 normal = default(Vector3)) => Put(x, y, 0, color, normal);
+        public static void Put(Vector3 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, v.Z, color, normal);
+        public static void Put(Vector2 v, Color? color = null, Vector3 normal = default(Vector3)) => Put(v.X, v.Y, color, normal);
 
-        public void Draw(PrimitiveType type)
+        public static void Draw(PrimitiveType type)
         {
             using (var colorArrayLock = new MemoryLock(_colors.ToArray()))
             using (var vertexArrayLock = new MemoryLock(_verts.ToArray()))

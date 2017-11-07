@@ -10,9 +10,10 @@ namespace WpfOpenGlLibrary.Helpers
     {
         public static void DrawMesh(Mesh mesh, Color color)
         {
-            var vh = new VertexHelper() { CurrentColor =  color};
-            vh.PutMany(mesh.Verts, normals: mesh.Normals);
-            vh.Draw(PrimitiveType.Triangles);
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor =  color;
+            VertexHelper.PutMany(mesh.Verts, normals: mesh.Normals);
+            VertexHelper.Draw(PrimitiveType.Triangles);
         }
 
         public static void DrawSphere(float r, int n1, int n2, bool solid, Color color)
@@ -57,7 +58,8 @@ namespace WpfOpenGlLibrary.Helpers
             // ------  Streifen zeichnen   ------
             int j2;
 
-            var vertexHelper = new VertexHelper() { CurrentColor = color };
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color;
 
             //vb.rewindBuffer(gl);
             for (int j = 0; j < n2; j++)                     // n2 Streifen von Norden nach Sueden
@@ -65,19 +67,19 @@ namespace WpfOpenGlLibrary.Helpers
                 {
                     var normal = new Vector3(nxa[i, j], nya[i, j], nza[i, j]);
                     var vertex = new Vector3(xa[i, j], ya[i, j], za[i, j]);
-                    vertexHelper.Put(vertex, normal: normal);
+                    VertexHelper.Put(vertex, normal: normal);
                     //vb.setNormal(nxa[i][j], nya[i][j], nza[i][j]);
                     //vb.putVertex(xa[i][j], ya[i][j], za[i][j]);
                     j2 = (j + 1) % n2;
 
                     normal = new Vector3(nxa[i, j2], nya[i, j2], nza[i, j2]);
                     vertex = new Vector3(nxa[i, j2], nya[i, j2], nza[i, j2]);
-                    vertexHelper.Put(vertex, normal: normal);
+                    VertexHelper.Put(vertex, normal: normal);
                     //vb.setNormal(nxa[i][j2], nya[i][j2], nza[i][j2]);
                     //vb.putVertex(xa[i][j2], ya[i][j2], za[i][j2]);
                 }
 
-            vertexHelper.Draw(PrimitiveType.TriangleStrip);
+            VertexHelper.Draw(PrimitiveType.TriangleStrip);
             //vb.copyBuffer(gl);
             //int nVerticesStreifen = 2 * n1;                  // Anzahl Vertices eines Streifens
             //for (int j = 0; j < n2; j++)                     // die Streifen muessen einzeln gezeichnet werden
@@ -137,32 +139,33 @@ namespace WpfOpenGlLibrary.Helpers
 
             BerechnePunkte(x, y, nx, ny, xa, ya, za, nxa, nya, nza);
 
-
-            var vertexHelper = new VertexHelper() { CurrentColor = color };
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color;
             for (int i = 0; i < n1; i++)                     // n1 Breitenlinien (Kresie um y-Achse)
                 for (int j = 0; j < n2; j++)
                 {
                     var normal = new Vector3(nxa[i, j], nya[i, j], nza[i, j]);
                     var vertex = new Vector3(nxa[i, j], nya[i, j], nza[i, j]);
-                    vertexHelper.Put(vertex, normal: normal);
+                    VertexHelper.Put(vertex, normal: normal);
                 }
 
-            vertexHelper.Draw(PrimitiveType.LineLoop);
+            VertexHelper.Draw(PrimitiveType.LineLoop);
             //int nVerticesOffset = n2;                  // Anzahl Vertices einer Breitenlinie
             //for (int i = 0; i < n1; i++)                     // die Linien muessen einzeln gezeichnet werden
             //    gl.glDrawArrays(GL3.GL_LINE_LOOP, i * nVerticesOffset, n2);  // Breitenlinie
 
-            vertexHelper = new VertexHelper() { CurrentColor = color };
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = color;
             //vb.rewindBuffer(gl);
             for (int j = 0; j < n2; j++)                     // n2 Laengslinien
                 for (int i = 0; i < n1; i++)
                 {
                     var normal = new Vector3(nxa[i, j], nya[i, j], nza[i, j]);
                     var vertex = new Vector3(xa[i, j], ya[i, j], za[i, j]);
-                    vertexHelper.Put(vertex, normal: normal);
+                    VertexHelper.Put(vertex, normal: normal);
                 }
 
-            vertexHelper.Draw(PrimitiveType.LineLoop);
+            VertexHelper.Draw(PrimitiveType.LineLoop);
             //vb.copyBuffer(gl);
             //nVerticesOffset = n1;                  // Anzahl Vertices einer Laengslinie
             //for (int j = 0; j < n2; j++)                     // die Linien muessen einzeln gezeichnet werden
