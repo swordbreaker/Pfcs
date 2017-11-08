@@ -120,7 +120,7 @@ namespace Aufgabe4
                 }
             }
 
-            _startX = (_startX + _speed) % ((steps * dt * 2));
+            _startX = (_startX + _speed) % (steps * dt * 2);
 
             _shader.M = Matrix4x4.CreateRotationZ(_phi) * m;
             FiguresHelper.DrawCircle(_cylinderFlow.Radius, 20, new [] {Colors.Orange, Colors.Blue, Colors.Green});

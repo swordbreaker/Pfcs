@@ -69,30 +69,32 @@ namespace Aufgabe4
             var y = v.Y;
             var x2y2 = x * x + y * y;
 
+            var a1 = new[]
+            {
+                W/x2y2 * y  + (1 + R2 / x2y2 - 2 * R2 * x * x / (x2y2 * x2y2)),
+                W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2))
+            };
+
+            v = new Vector2(xs[0], xs[1]);
+            v = Vector2.Transform(v, Matrix4x4.CreateTranslation(-6,0,0));
+            x = v.X;
+            y = v.Y;
+            x2y2 = x * x + y * y;
+
+            var a2 = new[]
+            {
+                W/x2y2 * y  + (1 + R2 / x2y2 - 2 * R2 * x * x / (x2y2 * x2y2)),
+                W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2))
+            };
+
             return new[]
             {
-                W/x2y2 * y + (1 + R2 / x2y2 - 2 * R2 * x * x / (x2y2 * x2y2)),
-                W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2)),
+                a1[0],
+                a1[1]
             };
         }
 
         public CylinderFlowLineDrawer GetLineDrawer(Vector2 startPos) => new CylinderFlowLineDrawer(this, startPos);
-
-        public void DrawLain(Vector2 start, float dt, int steps)
-        {
-            VertexHelper.Clear();
-            VertexHelper.CurrentColor = Colors.LightGreen;
-
-            var xs = start.ToArray();
-
-            for (int i = 0; i < steps; i++)
-            {
-                xs = Runge(xs, dt);
-                VertexHelper.Put(xs[0], xs[1]);
-            }
-
-            VertexHelper.Draw(PrimitiveType.LineStrip);
-        }
 
         public class CylinderFlowLineDrawer
         {
