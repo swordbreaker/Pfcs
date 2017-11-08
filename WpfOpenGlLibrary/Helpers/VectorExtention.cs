@@ -13,5 +13,10 @@ namespace WpfOpenGlLibrary.Helpers
         {
             return new[] {v.X, v.Y, v.Z};
         }
+
+        public static float[] ToArray(this Vector2 v)
+        {
+            return new[] { v.X, v.Y };
+        }
     }
 }

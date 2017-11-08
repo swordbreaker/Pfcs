@@ -6,8 +6,49 @@
         xmlns:local="clr-namespace:Aufgabe4"
         xmlns:wpfOpenGlLibrary="clr-namespace:WpfOpenGlLibrary;assembly=WpfOpenGlLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
         <wpfOpenGlLibrary:OpenGlWpfControl Grid.Column="0" x:Name="OpenGlWpfControl"/>
+
+        <StackPanel Grid.Column="1" Margin="10" MinWidth="8" MinHeight="3">
+
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0">Radius</TextBlock>
+                <Slider Grid.Row="0" Grid.Column="1" Value="{Binding Radius}" Minimum="0.1" Maximum="5" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0">X</TextBlock>
+                <Slider Grid.Row="1" Grid.Column="1" Value="{Binding X}" Minimum="-9" Maximum="9" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0">Y</TextBlock>
+                <Slider  Grid.Row="2" Grid.Column="1" Value="{Binding Y}" Minimum="-9" Maximum="9" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0">W</TextBlock>
+                <Slider Grid.Row="3" Grid.Column="1" Value="{Binding W}" Minimum="-9" Maximum="9" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+
+                <TextBlock Grid.Row="4" Grid.Column="0">Speed</TextBlock>
+                <Slider Grid.Row="4" Grid.Column="1" Value="{Binding Speed}" Minimum="0.01" Maximum="1" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+            </Grid>
+            
+            <UniformGrid Columns="2">
+
+            </UniformGrid>
+        </StackPanel>
     </Grid>
 </Window>

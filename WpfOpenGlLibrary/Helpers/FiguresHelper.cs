@@ -30,6 +30,38 @@ namespace WpfOpenGlLibrary.Helpers
             VertexHelper.Draw(PrimitiveType.TriangleFan);
         }
 
+        public static void DrawCircle(float r, int n, Color[] colors)
+        {
+            VertexHelper.Clear();
+            VertexHelper.CurrentColor = colors[0];
+
+            var phi = 2f * (float)Math.PI / n;
+            float x, y;
+
+            int step = (int)Math.Ceiling((float)n / colors.Length);
+
+            var k = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (i % step == 0 && i != 0) VertexHelper.CurrentColor = colors[++k];
+
+                x = r * (float)Math.Cos(phi * i);
+                y = r * (float)Math.Sin(phi * i);
+
+                VertexHelper.Put(x, y, normal: Vector3.UnitZ);
+
+                VertexHelper.Put(Vector2.Zero, normal: Vector3.UnitZ);
+
+                x = r * (float)Math.Cos(phi * (i + 1));
+                y = r * (float)Math.Sin(phi * (i + 1));
+
+                VertexHelper.Put(x, y, normal: Vector3.UnitZ);
+
+            }
+
+            VertexHelper.Draw(PrimitiveType.Triangles);
+        }
+
         public static void DrawPolygon(IEnumerable<Vector2> vecs, Color? color)
         {
             VertexHelper.Clear();
@@ -91,13 +123,13 @@ namespace WpfOpenGlLibrary.Helpers
                 new Vector2(-(a+c), 0),
                 new Vector2(-a, -b) ,
                 //Square
-                new Vector2(-a, -b), 
-                new Vector2(a, -b), 
-                new Vector2(a, b), 
+                new Vector2(-a, -b),
+                new Vector2(a, -b),
+                new Vector2(a, b),
                 new Vector2(-a, b),
                 //Triangle
-                new Vector2(a, -b), 
-                new Vector2(a + c, 0), 
+                new Vector2(a, -b),
+                new Vector2(a + c, 0),
                 new Vector2(a, b)
             };
 

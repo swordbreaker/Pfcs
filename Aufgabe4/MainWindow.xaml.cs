@@ -1,30 +1,75 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Aufgabe4.Annotations;
 using OpenGL;
 using WpfOpenGlLibrary;
 using WpfOpenGlLibrary.Helpers;
+using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace Aufgabe4
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private const float ViewPortLeft = -60;
-        private const float ViewPortRight = 60;
-        private const float ViewPortTop = 60;
-        private const float ViewPortBottom = -60;
+        private const float ViewPortLeft = -10;
+        private const float ViewPortRight = 10;
+        private const float ViewPortTop = 10;
+        private const float ViewPortBottom = -10;
         private const float ViewPortNear = -100f;
         private const float ViewPortFar = 100f;
 
-        private ShaderHelper _shader;
-        private readonly CameraHelper _cameraHelper = new CameraHelper(0, 0, 10f);
-        private readonly Lorenz _lorenz = new Lorenz();
+        public float Radius
+        {
+            get => _cylinderFlow.Radius;
+            set => SetField(ref _cylinderFlow.Radius, value);
+        }
 
+        public float X
+        {
+            get => _pos.X;
+            set => SetField(ref _pos, new Vector2(value, _pos.Y));
+        }
+
+        public float Y
+        {
+            get => _pos.Y;
+            set => SetField(ref _pos, new Vector2(_pos.X, value));
+        }
+
+        public float W
+        {
+            get => _cylinderFlow.W;
+            set
+            {
+                SetField(ref _cylinderFlow.W, value);
+                _deltaPhi = _cylinderFlow.W * _animationTime;
+            }
+            
+        }
+
+        public float Speed
+        {
+            get => _speed;
+            set => SetField(ref _speed, value);
+        }
+
+        private Vector2 _pos = Vector2.Zero;
+
+        private ShaderHelper _shader;
+        private readonly CylinderFlow _cylinderFlow = new CylinderFlow(2f);
+        private float _startX;
+        private readonly float _animationTime; //in seconds
+        private float _speed = 0.1f;
+        private float _phi;
+        private float _deltaPhi;
 
         public MainWindow()
         {
@@ -35,7 +80,7 @@ namespace Aufgabe4
             OpenGlWpfControl.OnRender += Render;
             OpenGlWpfControl.Ortho = new OpenGlWpfControl.OrthoProjection(ViewPortLeft, ViewPortRight, ViewPortTop, ViewPortBottom, ViewPortNear, ViewPortFar);
 
-            KeyDown += _cameraHelper.OnKeyDown;
+            _animationTime = OpenGlWpfControl.GlControl.AnimationTime / 1000f;
             KeyDown += OnKeyDown;
         }
 
@@ -52,20 +97,66 @@ namespace Aufgabe4
         private void Render(object sender, GlControlEventArgs e)
         {
             if (_shader == null) return;
+            _shader.M = Matrix4x4.Identity;
 
-            var v = _cameraHelper.CameraMatrix;
+            var m = Matrix4x4.CreateTranslation(new Vector3(_pos, 0));
+            _cylinderFlow.M = Matrix4x4.CreateScale(-1,-1,1) * m;
 
-            _shader.M = v;
-
-            FiguresHelper.Draw3DCross(500, 2);
             Gl.LineWidth(1);
-            _lorenz.DrawLain(new Vector3(10, 10, -100), 0.01f, 5000);
-            //DrawLain(-20, -20, 0, 0, 1, 0, 0.0005f, 500);              // Spirale
+
+            var steps = 10;
+            var dt = 0.02f;
+
+            for (int i = -20; i < 20; i++)
+            {
+                var y = i / 2f;
+                if (Math.Abs(y - _pos.Y) < 0.01f) y += 0.01f;
+                var drawer = _cylinderFlow.GetLineDrawer(new Vector2(-15, y));
+                drawer.Skip(_startX);
+                for (int j = 0; j < 150; j++)
+                {
+                    drawer.DrawLine(dt, steps);
+                    drawer.Skip(steps * dt);
+                }
+            }
+
+            _startX = (_startX + _speed) % ((steps * dt * 2));
+
+            _shader.M = Matrix4x4.CreateRotationZ(_phi) * m;
+            FiguresHelper.DrawCircle(_cylinderFlow.Radius, 20, new [] {Colors.Orange, Colors.Blue, Colors.Green});
+
+            _phi += _deltaPhi;
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            
+            switch (e.Key)
+            {
+                case Key.Q:
+                    W -= 0.1f;
+                    break;
+                case Key.E:
+                    W += 0.1f;
+                    break;
+                case Key.W:
+                    Y += 0.1f;
+                    break;
+                case Key.S:
+                    Y -= 0.1f;
+                    break;
+                case Key.A:
+                    X -= 0.1f;
+                    break;
+                case Key.D:
+                    X += 0.1f;
+                    break;
+                case Key.R:
+                    X = 0;
+                    Y = 0;
+                    W = 0;
+                    Radius = 2f;
+                    break;
+            }
         }
 
         //  -------  Klothoide (Cornu'sche Spirale) ------------
@@ -87,6 +178,22 @@ namespace Aufgabe4
             }
 
             VertexHelper.Draw(PrimitiveType.LineStrip);
+        }
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
