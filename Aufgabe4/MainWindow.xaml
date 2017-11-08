@@ -42,8 +42,8 @@
                 <TextBlock Grid.Row="3" Grid.Column="0">W</TextBlock>
                 <Slider Grid.Row="3" Grid.Column="1" Value="{Binding W}" Minimum="-9" Maximum="9" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
 
-                <TextBlock Grid.Row="4" Grid.Column="0">Speed</TextBlock>
-                <Slider Grid.Row="4" Grid.Column="1" Value="{Binding Speed}" Minimum="0.01" Maximum="1" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>
+                <!--<TextBlock Grid.Row="4" Grid.Column="0">Speed</TextBlock>
+                <Slider Grid.Row="4" Grid.Column="1" Value="{Binding Speed}" Minimum="0.01" Maximum="1" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"/>-->
             </Grid>
             
             <UniformGrid Columns="2">

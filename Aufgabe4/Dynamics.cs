@@ -64,7 +64,7 @@ namespace Aufgabe4
         {
             var R2 = Radius * Radius;
             var v = new Vector2(xs[0], xs[1]);
-            v = Vector2.Transform(v, M);
+            v = Vector2.Transform(v, Matrix4x4.CreateScale(-1, -1, 1) * M);
             var x = v.X;
             var y = v.Y;
             var x2y2 = x * x + y * y;
@@ -89,8 +89,8 @@ namespace Aufgabe4
 
             return new[]
             {
-                a1[0],
-                a1[1]
+                a1[0] + a2[0],
+                a1[1] + a2[1]
             };
         }
 

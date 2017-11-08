@@ -100,7 +100,7 @@ namespace Aufgabe4
             _shader.M = Matrix4x4.Identity;
 
             var m = Matrix4x4.CreateTranslation(new Vector3(_pos, 0));
-            _cylinderFlow.M = Matrix4x4.CreateScale(-1,-1,1) * m;
+            _cylinderFlow.M = m;
 
             Gl.LineWidth(1);
 
