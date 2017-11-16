@@ -39,7 +39,7 @@ namespace Aufgabe1
 
         private void DrawCircle(Vector2 center, float a1, float a2, float w1, float w2, float phi)
         {
-            var vertHelper = new VertexHelper {CurrentColor = Colors.LightGreen};
+            VertexHelper.Clear();
             var n = 400;
 
             var dt = (float)(2 * Math.PI) / (w1 * (n - 1));
@@ -49,10 +49,10 @@ namespace Aufgabe1
             {
                 var x = (float)Math.Sin(w1 * t) * a1 + center.X;
                 var y = (float)Math.Cos(w2 * t - phi) * a2 + center.Y;
-                vertHelper.Put(x,y);
+                VertexHelper.Put(x,y);
             }
 
-            vertHelper.Draw(PrimitiveType.LineLoop);
+            VertexHelper.Draw(PrimitiveType.LineLoop);
             Gl.LineWidth(6);
         }
     }

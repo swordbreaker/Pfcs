@@ -64,7 +64,7 @@ namespace Aufgabe4
         {
             var R2 = Radius * Radius;
             var v = new Vector2(xs[0], xs[1]);
-            v = Vector2.Transform(v, M);
+            v = Vector2.Transform(v, Matrix4x4.CreateScale(-1) * M);
             var x = v.X;
             var y = v.Y;
             var x2y2 = x * x + y * y;
@@ -75,22 +75,22 @@ namespace Aufgabe4
                 W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2))
             };
 
-            v = new Vector2(xs[0], xs[1]);
-            v = Vector2.Transform(v, Matrix4x4.CreateTranslation(-6,0,0));
-            x = v.X;
-            y = v.Y;
-            x2y2 = x * x + y * y;
+            //v = new Vector2(xs[0], xs[1]);
+            //v = Vector2.Transform(v, Matrix4x4.CreateTranslation(-6,0,0));
+            //x = v.X;
+            //y = v.Y;
+            //x2y2 = x * x + y * y;
 
-            var a2 = new[]
-            {
-                W/x2y2 * y  + (1 + R2 / x2y2 - 2 * R2 * x * x / (x2y2 * x2y2)),
-                W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2))
-            };
+            //var a2 = new[]
+            //{
+            //    W/x2y2 * y  + (1 + R2 / x2y2 - 2 * R2 * x * x / (x2y2 * x2y2)),
+            //    W/x2y2 * -x - (2 * R2 * x * y / (x2y2 * x2y2))
+            //};
 
             return new[]
             {
-                a1[0],
-                a1[1]
+                a1[0],// + a2[0],
+                a1[1],// + a2[1]
             };
         }
 
@@ -100,6 +100,7 @@ namespace Aufgabe4
         {
             private readonly CylinderFlow _cf;
             private float[] _xs;
+            private float _currentDt;
 
             internal CylinderFlowLineDrawer(CylinderFlow cf, Vector2 startPos)
             {
@@ -114,16 +115,19 @@ namespace Aufgabe4
 
                 for (int i = 0; i < steps; i++)
                 {
-                    VertexHelper.Put(_xs[0], _xs[1]);
+                    var t = ((float)Math.Sin(_currentDt) + 1f) / 2f;
+                    VertexHelper.Put(_xs[0], _xs[1], Color.FromScRgb(1,.0f,t,0f));
                     _xs = _cf.Runge(_xs, dt);
+                    _currentDt += dt;
                 }
 
-                VertexHelper.Draw(PrimitiveType.LineStrip);
+                VertexHelper.Draw(PrimitiveType.Points);
             }
 
             public void Skip(float dt)
             {
                 _xs = _cf.Runge(_xs, dt);
+                _currentDt += dt;
             }
         }
     }

@@ -100,27 +100,30 @@ namespace Aufgabe4
             _shader.M = Matrix4x4.Identity;
 
             var m = Matrix4x4.CreateTranslation(new Vector3(_pos, 0));
-            _cylinderFlow.M = Matrix4x4.CreateScale(-1,-1,1) * m;
+            _cylinderFlow.M = m;
 
             Gl.LineWidth(1);
+            Gl.PointSize(5f);
 
-            var steps = 10;
-            var dt = 0.02f;
+            var steps = 200;
+            //var dt = 0.02f;
+            var dt = 0.5f;
 
-            for (int i = -20; i < 20; i++)
+            for (int i = -30; i < 30; i++)
             {
                 var y = i / 2f;
                 if (Math.Abs(y - _pos.Y) < 0.01f) y += 0.01f;
-                var drawer = _cylinderFlow.GetLineDrawer(new Vector2(-15, y));
+                var drawer = _cylinderFlow.GetLineDrawer(new Vector2(-20, y));
                 drawer.Skip(_startX);
-                for (int j = 0; j < 150; j++)
-                {
-                    drawer.DrawLine(dt, steps);
-                    drawer.Skip(steps * dt);
-                }
+                drawer.DrawLine(dt, steps);
+                //for (int j = 0; j < 150; j++)
+                //{
+                //    drawer.DrawLine(dt, steps);
+                //    //drawer.Skip(steps * dt);
+                //}
             }
 
-            _startX = (_startX + _speed) % (steps * dt * 2);
+            _startX = (_startX + _speed) % (dt);
 
             _shader.M = Matrix4x4.CreateRotationZ(_phi) * m;
             FiguresHelper.DrawCircle(_cylinderFlow.Radius, 20, new [] {Colors.Orange, Colors.Blue, Colors.Green});
