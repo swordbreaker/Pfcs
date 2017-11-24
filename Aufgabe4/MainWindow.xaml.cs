@@ -55,6 +55,12 @@ namespace Aufgabe4
             
         }
 
+        public bool Colored
+        {
+            get => _colored;
+            set => SetField(ref _colored, value);
+        }
+
         public float Speed
         {
             get => _speed;
@@ -70,6 +76,7 @@ namespace Aufgabe4
         private float _speed = 0.1f;
         private float _phi;
         private float _deltaPhi;
+        private bool _colored;
 
         public MainWindow()
         {
@@ -115,7 +122,7 @@ namespace Aufgabe4
                 if (Math.Abs(y - _pos.Y) < 0.01f) y += 0.01f;
                 var drawer = _cylinderFlow.GetLineDrawer(new Vector2(-20, y));
                 drawer.Skip(_startX);
-                drawer.DrawLine(dt, steps);
+                drawer.DrawLine(dt, steps, Colored);
                 //for (int j = 0; j < 150; j++)
                 //{
                 //    drawer.DrawLine(dt, steps);

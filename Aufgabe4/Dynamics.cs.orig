@@ -64,7 +64,11 @@ namespace Aufgabe4
         {
             var R2 = Radius * Radius;
             var v = new Vector2(xs[0], xs[1]);
+<<<<<<< HEAD
             v = Vector2.Transform(v, Matrix4x4.CreateScale(-1) * M);
+=======
+            v = Vector2.Transform(v, Matrix4x4.CreateScale(-1, -1, 1) * M);
+>>>>>>> 8eb4fbeb362164f98aad6b0912bc463e74a78b5e
             var x = v.X;
             var y = v.Y;
             var x2y2 = x * x + y * y;
@@ -89,8 +93,13 @@ namespace Aufgabe4
 
             return new[]
             {
+<<<<<<< HEAD
                 a1[0],// + a2[0],
                 a1[1],// + a2[1]
+=======
+                a1[0] + a2[0],
+                a1[1] + a2[1]
+>>>>>>> 8eb4fbeb362164f98aad6b0912bc463e74a78b5e
             };
         }
 
@@ -108,15 +117,15 @@ namespace Aufgabe4
                 _xs = startPos.ToArray();
             }
 
-            public void DrawLine(float dt, int steps, bool colored = false)
+            public void DrawLine(float dt, int steps)
             {
                 VertexHelper.Clear();
                 VertexHelper.CurrentColor = Colors.LightGreen;
 
                 for (int i = 0; i < steps; i++)
                 {
-                    var t = (colored) ? ((float) Math.Cos(_currentDt) + 1f) / 2f : 1;
-                    VertexHelper.Put(_xs[0], _xs[1], Color.FromScRgb(1f,0,t,0));
+                    var t = ((float)Math.Sin(_currentDt) + 1f) / 2f;
+                    VertexHelper.Put(_xs[0], _xs[1], Color.FromScRgb(1,.0f,t,0f));
                     _xs = _cf.Runge(_xs, dt);
                     _currentDt += dt;
                 }
@@ -127,7 +136,7 @@ namespace Aufgabe4
             public void Skip(float dt)
             {
                 _xs = _cf.Runge(_xs, dt);
-                //_currentDt += dt;
+                _currentDt += dt;
             }
         }
     }
