@@ -11,7 +11,7 @@ namespace WpfOpenGlLibrary.Helpers
         public static void DrawMesh(Mesh mesh, Color color)
         {
             VertexHelper.Clear();
-            VertexHelper.CurrentColor =  color;
+            VertexHelper.CurrentColor = color;
             VertexHelper.PutMany(mesh.Verts, normals: mesh.Normals);
             VertexHelper.Draw(PrimitiveType.Triangles);
         }

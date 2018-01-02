@@ -32,11 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenGL.Net, Version=0.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenGL.Net.0.6.1\lib\net461\OpenGL.Net.dll</HintPath>
+    <Reference Include="OpenGL.Net, Version=0.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenGL.Net.0.7.1\lib\net461\OpenGL.Net.dll</HintPath>
     </Reference>
-    <Reference Include="OpenGL.Net.WinForms, Version=0.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenGL.Net.WinForms.0.6.1\lib\net461\OpenGL.Net.WinForms.dll</HintPath>
+    <Reference Include="OpenGL.Net.WinForms, Version=0.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenGL.Net.WinForms.0.7.1\lib\net461\OpenGL.Net.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -79,6 +79,7 @@
     <Compile Include="Helpers\VectorExtention.cs" />
     <Compile Include="Helpers\VertexHelper.cs" />
     <Compile Include="Models\Mesh.cs" />
+    <Compile Include="Models\Quader.cs" />
     <Compile Include="OpenGlWpfControl.xaml.cs">
       <DependentUpon>OpenGlWpfControl.xaml</DependentUpon>
     </Compile>

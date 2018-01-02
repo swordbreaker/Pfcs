@@ -19,18 +19,18 @@ namespace WpfOpenGlLibrary.Helpers
         private Matrix4x4 _p = Matrix4x4.Identity;
         private Vector3 _l = new Vector3(0,0,10);
         private int _shadingLevel = 0;
-        private float _ambient = 0.2f;
         private float _diffuse = 0.8f;
 
         private Stack<Matrix4x4> _mStack = new Stack<Matrix4x4>();
-             
+        private Vector3 _ambient = new Vector3(0.2f,0.2f,0.2f);
+
         public Matrix4x4 M
         {
             get => _m;
             set
             {
                 _m = value;
-                Gl.UniformMatrix4(_mId, 1, false, _m.ToArray());
+                Gl.UniformMatrix4(_mId, false, _m.ToArray());
             }
         }
 
@@ -40,7 +40,7 @@ namespace WpfOpenGlLibrary.Helpers
             set
             {
                 _p = value;
-                Gl.UniformMatrix4(_pId, 1, false, _p.ToArray());
+                Gl.UniformMatrix4(_pId, false, _p.ToArray());
             }
         }
 
@@ -54,6 +54,16 @@ namespace WpfOpenGlLibrary.Helpers
                 //TODO outsource to shader
                 v = Vector4.Transform(v, M);
                 Gl.Uniform4(_lId, v.X, v.Y, v.Z, v.W);
+            }
+        }
+
+        public Vector3 Ambien
+        {
+            get => _ambient;
+            set
+            {
+                _ambient = value;
+                Gl.Uniform3(_ambientId, _ambient.X, _ambient.Y, _ambient.Z);
             }
         }
 
@@ -110,11 +120,11 @@ namespace WpfOpenGlLibrary.Helpers
             //gl.glUniform1f(diffuseId, diffuse);
             //gl.glUniformMatrix4fv(lightPositionId, 1, false, lightPosition, 0);
 
-            Gl.UniformMatrix4(_mId, 1, false, _m.ToArray());
-            Gl.UniformMatrix4(_pId, 1, false, _p.ToArray());
+            Gl.UniformMatrix4(_mId, false, _m.ToArray());
+            Gl.UniformMatrix4(_pId, false, _p.ToArray());
             Gl.Uniform4(_lId, _l.X, _l.Y, _l.Z, 1);
             Gl.Uniform1(_shadingLevelId, _shadingLevel);
-            Gl.Uniform1(_ambientId, _ambient);
+            Gl.Uniform3(_ambientId, _ambient.X, _ambient.Y, _ambient.Z);
             Gl.Uniform1(_diffuseId, _diffuse);
         }
 
