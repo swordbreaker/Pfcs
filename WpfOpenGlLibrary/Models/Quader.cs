@@ -5,16 +5,16 @@ using WpfOpenGlLibrary.Helpers;
 namespace WpfOpenGlLibrary.Models
 {
 
-    public class Quader
+    public static class Quader
     {
-        Vector3 e1 = new Vector3(1, 0, 0);               // Normalenvektoren
-        Vector3 e2 = new Vector3(0, 1, 0);
-        Vector3 e3 = new Vector3(0, 0, 1);
-        Vector3 e1n = new Vector3(-1, 0, 0);             // negative Richtung
-        Vector3 e2n = new Vector3(0, -1, 0);
-        Vector3 e3n = new Vector3(0, 0, -1);
+        static Vector3 e1 = new Vector3(1, 0, 0);               // Normalenvektoren
+        static Vector3 e2 = new Vector3(0, 1, 0);
+        static Vector3 e3 = new Vector3(0, 0, 1);
+        static Vector3 e1n = new Vector3(-1, 0, 0);             // negative Richtung
+        static Vector3 e2n = new Vector3(0, -1, 0);
+        static Vector3 e3n = new Vector3(0, 0, -1);
 
-        public void Viereck(Vector3 A, Vector3 B, Vector3 C, Vector3 D, Vector3 n)      // Normale
+        public static void Viereck(Vector3 A, Vector3 B, Vector3 C, Vector3 D, Vector3 n)      // Normale
         {
             VertexHelper.Put(A, normal: n);
             VertexHelper.Put(B, normal: n);
@@ -32,7 +32,7 @@ namespace WpfOpenGlLibrary.Models
         }
 
 
-        public void kante(Vector3 a, Vector3 b)
+        public static void kante(Vector3 a, Vector3 b)
         {
             VertexHelper.Put(a);
             VertexHelper.Put(b);
@@ -42,7 +42,7 @@ namespace WpfOpenGlLibrary.Models
         }
 
 
-        public void Draw(float a, float b, float c, bool gefuellt)
+        public static void Draw(float a, float b, float c, bool gefuellt)
         {
             a *= 0.5f;
             b *= 0.5f;
